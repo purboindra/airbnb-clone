@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const {
       title,
       description,
-      imageSrc,
+      imageSource,
       category,
       roomCount,
       bathroomCount,
@@ -22,6 +22,33 @@ export async function POST(req: Request) {
       location,
       price,
     } = body;
+
+    Object.keys(body).forEach((value: any) => {
+      if (!body[value]) {
+        throw new NextResponse(`Missing fields ${body[value]}`, {
+          status: 401,
+        });
+      }
+    });
+
+    const listings = await prisma?.listing.create({
+      data: {
+        title,
+        description,
+        imageSource: imageSource,
+        category,
+        roomCount,
+        bathroomCount: bathroomCount,
+        guestCount,
+        locationValue: location.value,
+        price: parseInt(price),
+        userId: currentUser.id,
+      },
+    });
+
+    return NextResponse.json(listings, {
+      status: 200,
+    });
   } catch (error) {
     console.log("ERROR POST LISTING", error);
     return new NextResponse("Internal Server Error", {

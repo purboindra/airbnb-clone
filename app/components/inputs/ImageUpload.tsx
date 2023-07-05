@@ -30,9 +30,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
       }}
     >
       {({ open }) => {
+        function handleOnClick(e: any) {
+          e.preventDefault();
+          open();
+        }
+
         return (
           <div
-            onClick={() => open?.()}
+            onClick={handleOnClick}
             className="relative cursor-pointer hover:opacity-70 transition  border-2 p-20 border-neutral-300 flex flex-col justify-center items-center gap-4 text-neutral-600"
           >
             <TbPhotoPlus size={50} />

@@ -15,6 +15,7 @@ import Input from "../inputs/Input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { TbBeach } from "react-icons/tb";
 
 enum STEPS {
   CATEGORY = 0,
@@ -85,12 +86,17 @@ const RentModal = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log("category", category);
     if (step !== STEPS.PRICE) {
       return onNext();
     }
     setIsLoading(true);
     axios
-      .post("/api/listings", data)
+      .post("/api/listings", {
+        ...data,
+        bathroomCount: bathRoomCount,
+        category: category,
+      })
       .then(() => {
         toast.success("Listing created!");
         router.refresh();
@@ -129,7 +135,9 @@ const RentModal = () => {
         {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
-              onClick={(category) => setCustomValue("category", category)}
+              onClick={(value) => {
+                setCustomValue("category", value);
+              }}
               isSelected={category === item.label}
               label={item.label}
               icon={item.icon}

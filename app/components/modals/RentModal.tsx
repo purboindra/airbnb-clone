@@ -15,7 +15,6 @@ import Input from "../inputs/Input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { TbBeach } from "react-icons/tb";
 
 enum STEPS {
   CATEGORY = 0,
@@ -85,8 +84,24 @@ const RentModal = () => {
     setStep((value) => value + 1);
   };
 
+  // const getFileName = (file: any) => {
+  //   return file.originalname.substring(
+  //     file.originalname.lastIndexOf(".") + 1,
+  //     file.originalname.length
+  //   );
+  // };
+
+  // const uploadToLocal = multer({
+  //   storage: multer.diskStorage({
+  //     destination: "./public/uploads",
+  //     filename: (req, file, cb) => {
+  //       console.log("FILE", file?.filename);
+  //       return cb(null, req.file?.filename ?? "no file");
+  //     },
+  //   }),
+  // });
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log("category", category);
     if (step !== STEPS.PRICE) {
       return onNext();
     }
@@ -103,6 +118,7 @@ const RentModal = () => {
         reset();
         setStep(STEPS.CATEGORY);
         rentModal.onClose();
+        // uploadToLocal.array("file");
       })
       .catch((e) => {
         console.log("ERROR SUBMIT LISTING", e);

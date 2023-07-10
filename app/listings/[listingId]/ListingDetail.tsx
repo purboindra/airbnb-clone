@@ -66,7 +66,7 @@ const ListingDetail: React.FC<ListingDetailProps> = ({
         toast.success("Listing reserve");
         setDateRange(initialDateRange);
         // REDIRECT TO TRIPS
-        router.refresh();
+        router.push("/trips");
       })
       .catch((e) => toast.error(e))
       .finally(() => setIsLoading(false));
